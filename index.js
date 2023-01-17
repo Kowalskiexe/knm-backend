@@ -82,6 +82,11 @@ async function getPost(timestamp) {
 
 const app = express();
 
+// basic homepage
+app.get('/', (req, res) => {
+    res.send('<h1>general kenobi</h1>');
+});
+
 // return latest post but not newer than provided timestamp
 app.get('/:timestamp', async (req, res) => {
     res.set('Access-Control-Allow-Origin', '*'); // for cross site fetches
