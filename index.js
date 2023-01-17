@@ -1,5 +1,8 @@
 import fetch from 'node-fetch';
 import express from 'express';
+import http from 'http';
+import https from 'https';
+import fs from 'fs';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
@@ -86,11 +89,17 @@ app.get('/:timestamp', async (req, res) => {
     res.json(post);
 });
 
-// // for tls certificate verification
-// app.get('/.well-known/pki-validation/BD4E90CEF78DDDEF2620AECCA967BD0F.txt', (req, res) => {
-//     res.sendFile('./hosting/BD4E90CEF78DDDEF2620AECCA967BD0F.txt', { root: process.cwd() });
-// });
+// https://stackoverflow.com/questions/11744975/enabling-https-on-express-js
+const privateKey  = fs.readFileSync('hosting/private.key', 'utf8');
+const certificate = fs.readFileSync('hosting/certificate.crt', 'utf8');
+const credentials = {key: privateKey, cert: certificate};
 
-app.listen(80, _ => {
-    console.log('listening on port 80');
+const httpServer = http.createServer(app);
+const httpsServer = https.createServer(credentials, app);
+
+httpServer.listen(80, _ => {
+    console.log('listening for http on port 80');
+});
+httpsServer.listen(443, _ => {
+    console.log('listening for https on port 443');
 });
