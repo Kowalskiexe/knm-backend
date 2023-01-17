@@ -86,10 +86,10 @@ app.get('/:timestamp', async (req, res) => {
     res.json(post);
 });
 
-// for tls certificate verification
-app.get('/.well-known/pki-validation/BD4E90CEF78DDDEF2620AECCA967BD0F.txt', (req, res) => {
-    res.sendFile('./hosting/BD4E90CEF78DDDEF2620AECCA967BD0F.txt', { root: process.cwd() });
-});
+// // for tls certificate verification
+// app.get('/.well-known/pki-validation/BD4E90CEF78DDDEF2620AECCA967BD0F.txt', (req, res) => {
+//     res.sendFile('./hosting/BD4E90CEF78DDDEF2620AECCA967BD0F.txt', { root: process.cwd() });
+// });
 
 app.listen(80, _ => {
     console.log('listening on port 80');
